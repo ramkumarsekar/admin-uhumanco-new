@@ -1,5 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -8,10 +9,10 @@ import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
 })
 export class LoginComponent implements OnInit, OnDestroy {
   loginForm = new FormGroup({
-    'email': new FormControl('', [Validators.required,Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$")]),
+    'email': new FormControl('', [Validators.required]),
     'password': new FormControl('', Validators.required),
   });
-  constructor() {}
+  constructor(public router : Router) {}
 
   ngOnInit() {
   }
@@ -19,8 +20,11 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   submit(form : NgForm){
-    debugger
-    if (this.loginForm.invalid) {
+    if (!this.loginForm.invalid) {
+      if(this.loginForm.get('email').value == "Ramkumarsekar000@gmail.com" && this.loginForm.get('password').value == "ramkumar"){
+        localStorage.setItem("is_logged","true");
+        this.router.navigate(['/dashboard']);
+      }
     }
 
   }
